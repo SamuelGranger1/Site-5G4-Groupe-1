@@ -5,9 +5,7 @@ weight = 2
 
 # 1. Définition de la réalité virtuelle
 
-Dans ce cours, nous adoptons une définition largement inspirée de Steven M. LaValle, auteur de *Virtual Reality* (2017), qui constitue aujourd’hui une référence internationale dans le domaine.
-
-> **La réalité virtuelle (VR)** consiste à induire un *comportement ciblé* chez un organisme en utilisant une *stimulation sensorielle artificielle*, de manière à ce que cet organisme ait *peu ou pas conscience* de cette intervention.
+> **La réalité virtuelle (VR)**, c’est une simulation visuelle et auditive qui trompe le cerveau en lui donnant l’impression d’être dans un autre environnement, même si tout est généré par un ordinateur.
 
 Cette définition met l’accent sur quatre éléments fondamentaux :
 
@@ -21,7 +19,7 @@ Cette définition met l’accent sur quatre éléments fondamentaux :
 ## 1.1 Comportement ciblé
 
 Le comportement visé n’est jamais laissé au hasard :  
-il est intentionnel, conçu par un créateur — développeur, chercheur, artiste ou designer.
+il est intentionnel, conçu par un créateur, développeur, chercheur, artiste ou designer.
 
 ### Exemples de comportements ciblés :
 
@@ -44,10 +42,8 @@ Il englobe :
 
 ### Exemples d'utilisation scientifique :
 
-- étude de la navigation spatiale chez les rongeurs ;
-- compréhension des circuits neuronaux en environnement contrôlé.
+- Chez les animaux, la VR sert surtout à étudier le comportement, la perception, et le fonctionnement du cerveau dans un environnement totalement contrôlé. Elle permet de créer des situations impossibles à produire dans le monde réel (par exemple : téléportation, objets impossibles, environnements dangereux mais sûrs, etc.). Dans ce cours, nous étudions la VR principalement du point de vue humain, mais cette définition plus générale rappelle que la VR est un **outil expérimental** avant d’être un produit commercial.
 
-Dans ce cours, nous étudions la VR principalement du point de vue humain, mais cette définition plus générale rappelle que la VR est un **outil expérimental** avant d’être un produit commercial.
 
 ---
 
@@ -66,7 +62,7 @@ Elle peut agir sur :
 ### Toucher / proprioception  
 - Vibrations, retours haptiques, plateformes de mouvement.
 
-### But final  
+### But:  
 L’organisme utilise ces signaux **artificiels** comme base de perception et d’action, ce qui crée une illusion d’être réellement *présent* dans un autre monde.
 
 ---
@@ -85,19 +81,13 @@ Un bon système VR ne cherche donc pas uniquement à afficher des images 3D, mai
 - maintenir une immersion stable,  
 - et réduire la conscience de l’artificialité.
 
-Lorsque cette illusion échoue, l’utilisateur peut ressentir de la confusion ou du **cybersickness**.
+Lorsque cette illusion échoue, l’utilisateur peut ressentir de la confusion ou du **cybersickness** (inconfort physique causé par une exposition à la réalité virtuelle.).
 
 ---
 
 # 2. Réalité virtuelle, réalité augmentée, réalité mixte : comprendre les différences
 
 Avant d’aller plus loin dans la partie technique, c’est important de clarifier ce qu’on entend par “VR”, “AR”, “MR” et même “XR”, parce que ce sont des termes qu’on mélange souvent. Les technologies se ressemblent, elles utilisent parfois les mêmes capteurs et les mêmes algorithmes, mais leur objectif n’est pas du tout le même.
-
-Cette section s’inspire principalement de :  
-- *Virtual Reality* de Steven M. LaValle (2017)  
-- *Understanding Augmented Reality* de Alan B. Craig (2013)  
-- Documentation Meta/Oculus Developer (2023)  
-- Norme OpenXR du Khronos Group  
 
 L’idée est simplement de poser les bases pour qu’on parle tous le même langage dans le reste du cours.
 
@@ -113,15 +103,14 @@ La **réalité virtuelle**, c’est la technologie qu’on utilise quand on veut
 - parfois du son 3D et du retour haptique.
 
 L’objectif, c’est l’immersion totale.  
-Le système veut te convaincre que “tu es là-bas”, même si tu es physiquement dans ta chambre. C’est exactement ce que LaValle appelle la **présence**.
+Le système veut te convaincre que “tu es là-bas”, même si tu es physiquement dans ta chambre. C’est exactement ce qu'on appelle la **présence**.
 
 Exemples d’applications VR :  
 - entraînement en simulateur (médecine, aviation, industrie),  
 - jeux immersifs,  
 - visualisation architecturale,  
-- recherche en neurosciences (étudier la navigation, les phobies, etc.).
 
-En VR, le monde réel n’est plus une référence. Il est complètement remplacé.
+En VR, le monde réel n’est plus une référence. Il est complètement remplacé par un nouvelle univers.
 
 ---
 
@@ -133,7 +122,7 @@ L’idée, c’est d’ajouter du contenu numérique **par-dessus** ce que tu vo
 Exemples d’appareils AR :  
 - téléphones (Pokémon GO, IKEA Place),  
 - tablettes,  
-- lunettes AR comme HoloLens ou Magic Leap.
+- espaces de bureau avec plusieurs écrans
 
 Pour que ça fonctionne, l’appareil doit comprendre un minimum ton environnement :  
 - détecter les surfaces,  
@@ -143,13 +132,6 @@ Pour que ça fonctionne, l’appareil doit comprendre un minimum ton environneme
 
 L’objectif n’est **pas** l’immersion totale.  
 C’est plutôt de “compléter” le monde réel avec des éléments interactifs, informatifs ou visuels.
-
-Applications AR :  
-- instructions de maintenance industrielle,  
-- visualisation de produits avant achat,  
-- filtres Snapchat,  
-- navigation intérieure,  
-- outils pédagogiques.
 
 ---
 
@@ -165,17 +147,16 @@ Exemple :
 
 Pour faire ça, il faut une compréhension profonde de l’environnement :  
 - reconstruction 3D en temps réel,  
-- SLAM avancé (Simultaneous Localization And Mapping),  
 - détection d’objets réels,  
 - suivi précis des mains.
 
-C’est ce que promettent les casques comme HoloLens 2 ou le Meta Quest 3 en mode passthrough couleur.
+C’est exactement ce que cherchent à offrir des appareils comme le HoloLens 2 ou le Meta Quest 3 grâce à leur mode passthrough en couleur, qui permet de voir le monde réel enrichi d’éléments virtuels de façon cohérente et immersive.
 
 ---
 
 ## 2.4 XR (Extended Reality)
 
-Le terme **XR** est un mot parapluie qui regroupe :  
+Le terme **XR** est un mot qui englobe :  
 - VR,  
 - AR,  
 - MR.
@@ -216,7 +197,7 @@ Même si ces technologies semblent proches, elles reposent sur des contraintes t
 - fusion du numérique et du réel.
 
 Les compétences qu’un développeur doit maîtriser ne sont donc pas les mêmes.  
-Et dans ton atelier, on s’intéresse **uniquement** à la VR — plus précisément au rendu **stéréoscopique**, qui est le cœur de l’illusion de profondeur.
+Et dans l'atelier, on s’intéresse **uniquement** à la VR, plus précisément au rendu **stéréoscopique**, qui est le coeur de l’illusion de profondeur.
 
 ---
 
@@ -233,20 +214,17 @@ Dans la prochaine section, on va voir pourquoi ce principe est essentiel et comm
 Dans cette partie, on va parler d’un aspect fondamental de la réalité virtuelle : **la stéréoscopie**.  
 C’est littéralement la base qui permet de créer l’impression de profondeur dans un casque VR. Sans ce principe, la VR ne serait qu’un écran plat collé au visage, sans immersion et sans sensation d’espace.
 
-Cette section s’appuie principalement sur :  
-- LaValle, *Virtual Reality* (chapitre sur la vision humaine et la stéréoscopie)  
-- Documentation Meta/Oculus (rendu stéréo et IPD)  
-- SIGGRAPH Courses sur la perception 3D  
-
 ---
 
 ## 3.1 Qu’est-ce que la stéréoscopie ?
 
 La stéréoscopie, c’est simplement le fait que **chaque œil voit une image différente** du monde réel.  
-Nos yeux sont espacés d’environ **6,3 cm** (on appelle ça l’IPD — *Inter-Pupillary Distance*).  
+Nos yeux sont espacés d’environ **6,3 cm** (on appelle ça l’IPD — *Distance interpupillaire*).  
 À cause de cette distance, l’œil gauche et l’œil droit ne reçoivent pas exactement la même image.  
 
-Le cerveau utilise ensuite cette différence — qu’on appelle **disparité binoculaire** — pour calculer la profondeur.
+- La distance interpupillaire (DI) est la mesure de la distance entre le centre de vos deux yeux et dépend du type de lunettes que vous achetez : vision de loin ou vision de près. Cette mesure permet d’aligner correctement le centre de vos verres de lunettes avec le centre de vos yeux. ([Pour plus d'information](https://opto.ca/eye-health-library/interpupillary-distance-pd))
+
+Le cerveau utilise ensuite cette différence qu’on appelle **disparité binoculaire** (la différence entre les deux images qu'observent nos yeux, causée par leur légère séparation), pour calculer la profondeur.
 
 ### Exemple simple
 Si tu places ton doigt devant toi et que tu fermes alternativement l’œil gauche puis l’œil droit, tu vas voir ton doigt bouger “d’un côté à l’autre”.  
@@ -608,4 +586,43 @@ En résumé, la VR fonctionne déjà très bien, mais elle demande :
 - et des systèmes optiques et logiciels sophistiqués.
 
 C’est ce qui rend la VR à la fois **complexe** et **passionnante** à étudier.
+
+
+
+# 6. Conclusion
+
+Pour résumer, la réalité virtuelle est bien plus qu’une simple technologie “cool” ou un gadget pour jouer à des jeux. C’est un domaine complet qui combine la perception humaine, la 3D, l’optique, le tracking, le traitement du mouvement et surtout une compréhension fine de la manière dont le cerveau interprète le monde qui l’entoure. La définition de LaValle, que nous avons utilisée au début du document, montre bien que la VR n’est pas seulement une question d’afficher des images : c’est l’art de créer une expérience cohérente, ciblée, et suffisamment crédible pour que l’utilisateur oublie, même juste un moment, qu’il est dans une illusion.
+
+La comparaison avec la réalité augmentée et la réalité mixte permet aussi de mieux comprendre la place exacte de la VR dans l’écosystème des technologies immersives. Contrairement à l’AR, qui ajoute du contenu sur le monde réel, la VR remplace entièrement la perception de l’utilisateur. Et contrairement à la MR, qui cherche à mélanger virtuel et réel de façon intelligente, la VR assume pleinement son rôle : créer un monde artificiel complet.
+
+Un point majeur dans tout ce fonctionnement est la stéréoscopie. C’est vraiment la base de l’immersion. Sans deux images légèrement différentes pour chaque œil, toute la magie disparaît : plus de profondeur, moins de réalisme, et une illusion qui s’effondre complètement. C’est pour ça que même un moteur VR simple, comme celui qu’on construit dans l’atelier, doit commencer par gérer deux caméras, deux matrices de vue et deux projections. C’est le cœur même de la réalité virtuelle moderne.
+
+Enfin, même si les applications de la VR sont déjà impressionnantes — jeux, formation, médecine, recherche, architecture — la technologie doit encore surmonter plusieurs défis importants. La latence, le confort visuel, le FOV limité, la résolution, le conflit vergence-accommodation, ou encore la cybersickness sont autant de contraintes qui demandent encore de l’innovation. Mais chaque année, les casques deviennent plus précis, plus légers, plus réalistes, et surtout plus accessibles.
+
+Dans l’ensemble, la VR est un domaine en constante évolution, où la science, l’ingénierie et la créativité se rencontrent. Comprendre ses bases théoriques, comme on l’a fait dans ces notes, permet non seulement d’apprécier la technologie actuelle, mais aussi d’imaginer ce qu’elle pourra devenir dans les prochaines années. Et avec les outils modernes — que ce soit dans les moteurs de jeu, les bibliothèques C++ ou les standards comme OpenXR — la VR est plus ouverte que jamais pour les développeurs et les chercheurs qui veulent contribuer à son avenir.
+
+
+# Références
+
+LaValle, S. M. (2017). *Virtual Reality*. University of Illinois.  
+Disponible gratuitement : https://msl.cs.uiuc.edu/vr/vrbook.pdf  
+
+Craig, A. B. (2013). *Understanding Augmented Reality: Concepts and Applications*. Elsevier.  
+Présentation du livre : https://www.sciencedirect.com/book/9780240824086/understanding-augmented-reality  
+
+Meta (Oculus). *Oculus Developer Documentation*.  
+Informations techniques sur le rendu stéréo, IPD, tracking et bonnes pratiques VR.  
+https://developer.oculus.com/documentation  
+
+Khronos Group. *OpenXR Specification*.  
+Standard officiel pour la réalité virtuelle et mixte, utilisé par Meta, Valve, HTC, Microsoft.  
+https://www.khronos.org/openxr/  
+
+SIGGRAPH. *Courses and Technical Papers on VR/AR*.  
+Ressources scientifiques de référence en rendu, optique et perception.  
+https://www.siggraph.org/learn/conference-resources/  
+
+IEEE VR Conference. *IEEE Virtual Reality Proceedings*.  
+Articles scientifiques sur la perception, les systèmes immersifs, le tracking et les technologies VR.  
+https://ieeexplore.ieee.org/xpl/conhome/1003561/all-proceedings
 

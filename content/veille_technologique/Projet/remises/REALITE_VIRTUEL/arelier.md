@@ -690,39 +690,3 @@ On libère la mémoire GPU (VBO, VAO, programme shader).
 
 On ferme GLFW proprement.
 
-# 6. Conclusion
-
-Pour résumer, la réalité virtuelle est bien plus qu’une simple technologie “cool” ou un gadget pour jouer à des jeux. C’est un domaine complet qui combine la perception humaine, la 3D, l’optique, le tracking, le traitement du mouvement et surtout une compréhension fine de la manière dont le cerveau interprète le monde qui l’entoure. La définition de LaValle, que nous avons utilisée au début du document, montre bien que la VR n’est pas seulement une question d’afficher des images : c’est l’art de créer une expérience cohérente, ciblée, et suffisamment crédible pour que l’utilisateur oublie, même juste un moment, qu’il est dans une illusion.
-
-La comparaison avec la réalité augmentée et la réalité mixte permet aussi de mieux comprendre la place exacte de la VR dans l’écosystème des technologies immersives. Contrairement à l’AR, qui ajoute du contenu sur le monde réel, la VR remplace entièrement la perception de l’utilisateur. Et contrairement à la MR, qui cherche à mélanger virtuel et réel de façon intelligente, la VR assume pleinement son rôle : créer un monde artificiel complet.
-
-Un point majeur dans tout ce fonctionnement est la stéréoscopie. C’est vraiment la base de l’immersion. Sans deux images légèrement différentes pour chaque œil, toute la magie disparaît : plus de profondeur, moins de réalisme, et une illusion qui s’effondre complètement. C’est pour ça que même un moteur VR simple, comme celui qu’on construit dans l’atelier, doit commencer par gérer deux caméras, deux matrices de vue et deux projections. C’est le cœur même de la réalité virtuelle moderne.
-
-Enfin, même si les applications de la VR sont déjà impressionnantes — jeux, formation, médecine, recherche, architecture — la technologie doit encore surmonter plusieurs défis importants. La latence, le confort visuel, le FOV limité, la résolution, le conflit vergence-accommodation, ou encore la cybersickness sont autant de contraintes qui demandent encore de l’innovation. Mais chaque année, les casques deviennent plus précis, plus légers, plus réalistes, et surtout plus accessibles.
-
-Dans l’ensemble, la VR est un domaine en constante évolution, où la science, l’ingénierie et la créativité se rencontrent. Comprendre ses bases théoriques, comme on l’a fait dans ces notes, permet non seulement d’apprécier la technologie actuelle, mais aussi d’imaginer ce qu’elle pourra devenir dans les prochaines années. Et avec les outils modernes — que ce soit dans les moteurs de jeu, les bibliothèques C++ ou les standards comme OpenXR — la VR est plus ouverte que jamais pour les développeurs et les chercheurs qui veulent contribuer à son avenir.
-
-
-# Références
-
-LaValle, S. M. (2017). *Virtual Reality*. University of Illinois.  
-Disponible gratuitement : https://msl.cs.uiuc.edu/vr/vrbook.pdf  
-
-Craig, A. B. (2013). *Understanding Augmented Reality: Concepts and Applications*. Elsevier.  
-Présentation du livre : https://www.sciencedirect.com/book/9780240824086/understanding-augmented-reality  
-
-Meta (Oculus). *Oculus Developer Documentation*.  
-Informations techniques sur le rendu stéréo, IPD, tracking et bonnes pratiques VR.  
-https://developer.oculus.com/documentation  
-
-Khronos Group. *OpenXR Specification*.  
-Standard officiel pour la réalité virtuelle et mixte, utilisé par Meta, Valve, HTC, Microsoft.  
-https://www.khronos.org/openxr/  
-
-SIGGRAPH. *Courses and Technical Papers on VR/AR*.  
-Ressources scientifiques de référence en rendu, optique et perception.  
-https://www.siggraph.org/learn/conference-resources/  
-
-IEEE VR Conference. *IEEE Virtual Reality Proceedings*.  
-Articles scientifiques sur la perception, les systèmes immersifs, le tracking et les technologies VR.  
-https://ieeexplore.ieee.org/xpl/conhome/1003561/all-proceedings
