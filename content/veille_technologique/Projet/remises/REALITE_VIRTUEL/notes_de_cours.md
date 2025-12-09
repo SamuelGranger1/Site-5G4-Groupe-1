@@ -293,33 +293,9 @@ Certains moteurs VR utilisent donc une **projection asymétrique** pour mieux co
 - au comportement des lentilles Fresnel,  
 - au champ de vision.
 
-SIGGRAPH et Oculus expliquent que cette asymétrie améliore la clarté de l’image et la stabilité visuelle.
-
-Ton atelier n’utilise pas ces projections avancées (ce serait trop complexe), mais c’est ce que font les moteurs professionnels.
-
 ---
 
-## 3.6 Exemple visuel : comment le cerveau voit en stéréo
-
-Pour donner une idée simple, voici un schéma ASCII :
-
-[ Oeil gauche ] [ Oeil droit ]
-\ /
-\ /
-\ /
-
-Chaque œil reçoit un angle de vue légèrement différent.  
-Le cerveau compare les deux images et reconstruit la distance.
-
-Dans un casque VR, on simule exactement ces deux rayons, sauf que :
-
-- l’objet est 3D calculé par le GPU,  
-- les deux caméras virtuelles remplacent tes deux yeux,  
-- les lentilles amplifient le champ de vision.
-
----
-
-## 3.7 Stéréoscopie vs profondeur “fausse” (indices monoculaires)
+## 3.6 Stéréoscopie vs profondeur “fausse” (indices monoculaires)
 
 Même avec un seul œil, on peut percevoir une forme de profondeur grâce à :
 
@@ -329,22 +305,23 @@ Même avec un seul œil, on peut percevoir une forme de profondeur grâce à :
 - le flou,  
 - le mouvement de caméra.
 
-Ce sont des **indices monoculaires**.
+Ce sont des **indices monoculaires** (indices de profondeur et de distance perçus avec un seul oeil).
 
 En VR, ils sont présents, mais ils ne suffisent pas.  
 Si on coupe la stéréo, l’immersion chute drastiquement.  
+
+
 La Valle (UIUC) explique que **la stéréoscopie est le signal de profondeur le plus fort que le cerveau utilise**, et c’est pour ça que la VR dépend autant de ce mécanisme.
 
 ---
 
-## 3.8 Pourquoi la stéréoscopie cause parfois de l’inconfort
+## 3.7 Pourquoi la stéréoscopie cause parfois de l’inconfort
 
 En VR, on demande aux yeux de faire quelque chose qui n’arrive pas dans la vraie vie :
 
-- les yeux convergent vers un point virtuel (comme dans la réalité),  
-- mais l’accommodation (la mise au point du cristallin) reste fixe, car l’écran ne bouge pas.
+- les yeux convergent vers un point virtuel (comme dans la réalité), mais l’accommodation (la mise au point du cristallin) reste fixe, car l’écran ne bouge pas. 
 
-Ce conflit s’appelle le **vergence-accommodation conflict**.
+Ce conflit s’appelle le **vergence-accommodation conflict** ([Pour plus d'information](https://pmc.ncbi.nlm.nih.gov/articles/PMC2879326/)).
 
 Quand il est trop fort, tu as :
 
@@ -352,15 +329,15 @@ Quand il est trop fort, tu as :
 - maux de tête,  
 - difficulté à faire la mise au point.
 
-La recherche travaille activement sur de nouvelles solutions :  
+Les recherches travaillent activement sur de nouvelles solutions :  
 - écrans multifocaux,  
 - écrans varifocaux,  
 - lentilles à profondeur variable,  
-- holographie (SIGGRAPH 2023).
+- holographie.
 
 ---
 
-## 3.9 Résumé : pourquoi la stéréoscopie est la base de la VR
+## 3.8 Résumé : pourquoi la stéréoscopie est la base de la VR
 
 1. Elle recrée la profondeur de manière naturelle.  
 2. Elle permet au cerveau de croire que le monde virtuel est réellement “spatial”.  
@@ -368,14 +345,14 @@ La recherche travaille activement sur de nouvelles solutions :
 4. Sans elle, on obtient un simple écran 2D.  
 5. Toute la chaîne VR (tracking, shaders, matrices, lentilles) existe pour la supporter.
 
-C’est pourquoi ton atelier VR n’est pas juste un exercice OpenGL :  
-c’est une **mini version** d’un vrai pipeline VR qui montre **la mécanique exacte** utilisée dans les casques modernes.
+C’est pourquoi que atelier VR n’est pas juste un exercice OpenGL :  
+c’est une **mini version** d’un vrai **pipeline** VR qui montre **la mécanique exacte** utilisée dans les casques modernes.
 
 ---
 
 # 4. Applications concrètes de la réalité virtuelle
 
-Maintenant qu’on comprend mieux ce qu’est la VR et comment elle fonctionne au niveau perceptif, c’est important de voir **à quoi elle sert réellement**. La VR n’est pas seulement utilisée pour jouer à des jeux : c’est une technologie qui touche plusieurs domaines importants, autant dans l’industrie que dans la recherche scientifique. Dans cette section, je présente les applications les plus courantes, basées sur LaValle, Meta, et différents cas publiés dans SIGGRAPH ou l’industrie.
+Maintenant qu’on comprend mieux ce qu’est la VR et comment elle fonctionne au niveau perceptif, c’est important de voir **à quoi elle sert réellement**. La VR n’est pas seulement utilisée pour jouer à des jeux : c’est une technologie qui touche plusieurs domaines importants, autant dans l’industrie que dans la recherche scientifique. Dans cette section, je présente les applications les plus courantes.
 
 ---
 
@@ -446,7 +423,7 @@ Parce que la VR capte les mouvements du corps, elle peut guider un patient dans 
 ## 4.5 Recherche scientifique et neurosciences
 
 C’est un domaine un peu moins connu du grand public, mais extrêmement important.  
-La VR permet aux chercheurs de contrôler totalement l’environnement d’un sujet — humain ou animal — ce qui est impossible dans le monde réel.
+La VR permet aux chercheurs de contrôler totalement l’environnement d’un sujet humain ou animal, ce qui est impossible dans le monde réel.
 
 Exemples :
 
@@ -463,8 +440,6 @@ C’est pour ça que LaValle, qui vient du milieu académique, insiste que la VR
 
 Même si la VR est impressionnante et continue d’évoluer rapidement, il reste plusieurs défis techniques importants.  
 Ces défis viennent principalement du fait que la VR doit convaincre le cerveau avec des illusions très précises, et qu’un simple détail mal géré peut briser l’immersion ou rendre l’utilisateur malade.
-
-Cette section s’inspire fortement de LaValle, des recherches SIGGRAPH et des recommandations techniques de Meta/Oculus.
 
 ---
 
@@ -499,51 +474,7 @@ Le moteur VR doit rendre **deux images** par frame (œil gauche et œil droit), 
 
 ---
 
-## 5.3 Conflit vergence-accommodation
-
-Comme expliqué dans la section stéréoscopie :
-
-- les yeux convergent vers des objets virtuels,  
-- mais l’accommodation reste fixe (écran à distance constante).
-
-Ce conflit peut causer :
-
-- fatigue visuelle,  
-- difficulté à faire la mise au point,  
-- inconfort après quelques minutes.
-
-Des solutions expérimentales existent, comme les écrans varifocaux et holographiques, mais elles ne sont pas encore grand public.
-
----
-
-## 5.4 Champ de vision limité
-
-Le **FOV** (Field of View) des casques VR actuels est généralement entre 90° et 110°.  
-C’est bien, mais encore loin du champ de vision humain naturel, qui est d’environ 200° horizontalement.
-
-Un FOV trop petit peut donner l’impression de “regarder dans un masque de plongée”.  
-Des progrès sont faits avec :
-
-- des lentilles plus grandes,  
-- des écrans plus larges,  
-- des systèmes optiques pliés ("pancake lenses").
-
----
-
-## 5.5 Résolution et effet de grille (screen-door effect)
-
-Même si les casques montent en résolution, il reste parfois visible une sorte de grille due à l’espace entre les pixels.  
-Ce problème diminue avec :
-
-- des écrans plus denses,  
-- des sous-pixels optimisés,  
-- des lentilles plus efficaces.
-
-Les casques haut de gamme comme le Quest 3 ou le Varjo XR-3 s’en sortent déjà très bien, mais ce n’est pas parfait.
-
----
-
-## 5.6 Tracking et dérive
+## 5.3 Tracking et dérive
 
 Pour que la VR soit naturelle, le suivi doit être :
 
@@ -561,9 +492,10 @@ Si une pièce est trop sombre, trop lumineuse ou trop vide, le tracking peut dev
 
 ---
 
-## 5.7 Cybersickness
+## 5.4 Cybersickness
 
 Le cybersickness est l’équivalent du mal des transports, mais dans un monde virtuel.  
+
 Il peut être causé par :
 
 - latence,  
@@ -572,11 +504,9 @@ Il peut être causé par :
 - mauvaises distances de confort,  
 - accélérations non naturelles.
 
-LaValle consacre tout un chapitre à ce sujet, car c’est l’un des plus grands défis de la VR actuelle.
-
 ---
 
-## 5.8 Conclusion des défis
+## 5.5 Conclusion des défis
 
 En résumé, la VR fonctionne déjà très bien, mais elle demande :
 
@@ -585,30 +515,21 @@ En résumé, la VR fonctionne déjà très bien, mais elle demande :
 - une compréhension précise du cerveau humain,  
 - et des systèmes optiques et logiciels sophistiqués.
 
-C’est ce qui rend la VR à la fois **complexe** et **passionnante** à étudier.
-
-
+---
 
 # 6. Conclusion
 
-Pour résumer, la réalité virtuelle est bien plus qu’une simple technologie “cool” ou un gadget pour jouer à des jeux. C’est un domaine complet qui combine la perception humaine, la 3D, l’optique, le tracking, le traitement du mouvement et surtout une compréhension fine de la manière dont le cerveau interprète le monde qui l’entoure. La définition de LaValle, que nous avons utilisée au début du document, montre bien que la VR n’est pas seulement une question d’afficher des images : c’est l’art de créer une expérience cohérente, ciblée, et suffisamment crédible pour que l’utilisateur oublie, même juste un moment, qu’il est dans une illusion.
+La réalité virtuelle, ce n’est pas seulement afficher des images en 3D : c’est créer une expérience qui paraît cohérente et naturelle au point où l’utilisateur oublie qu’il est dans une illusion. La VR mélange perception humaine, optique, tracking, rendu 3D et compréhension du fonctionnement du cerveau. C’est ce qui fait sa force et sa complexité.
 
-La comparaison avec la réalité augmentée et la réalité mixte permet aussi de mieux comprendre la place exacte de la VR dans l’écosystème des technologies immersives. Contrairement à l’AR, qui ajoute du contenu sur le monde réel, la VR remplace entièrement la perception de l’utilisateur. Et contrairement à la MR, qui cherche à mélanger virtuel et réel de façon intelligente, la VR assume pleinement son rôle : créer un monde artificiel complet.
+Comparée aux autres technologies immersives, la VR se distingue parce qu’elle remplace entièrement la perception de l’utilisateur, contrairement à l’AR (qui ajoute des éléments au réel) ou à la MR (qui combine les deux). Cette immersion totale repose avant tout sur la stéréoscopie : deux images légèrement différentes, une pour chaque oeil. Sans ça, il n’y a ni profondeur ni vraie sensation d’espace, et l’illusion s’écroule. C’est pourquoi même un simple moteur VR, comme celui construit dans l’atelier, doit gérer deux caméras, deux vues et deux projections.
 
-Un point majeur dans tout ce fonctionnement est la stéréoscopie. C’est vraiment la base de l’immersion. Sans deux images légèrement différentes pour chaque œil, toute la magie disparaît : plus de profondeur, moins de réalisme, et une illusion qui s’effondre complètement. C’est pour ça que même un moteur VR simple, comme celui qu’on construit dans l’atelier, doit commencer par gérer deux caméras, deux matrices de vue et deux projections. C’est le cœur même de la réalité virtuelle moderne.
-
-Enfin, même si les applications de la VR sont déjà impressionnantes — jeux, formation, médecine, recherche, architecture — la technologie doit encore surmonter plusieurs défis importants. La latence, le confort visuel, le FOV limité, la résolution, le conflit vergence-accommodation, ou encore la cybersickness sont autant de contraintes qui demandent encore de l’innovation. Mais chaque année, les casques deviennent plus précis, plus légers, plus réalistes, et surtout plus accessibles.
-
-Dans l’ensemble, la VR est un domaine en constante évolution, où la science, l’ingénierie et la créativité se rencontrent. Comprendre ses bases théoriques, comme on l’a fait dans ces notes, permet non seulement d’apprécier la technologie actuelle, mais aussi d’imaginer ce qu’elle pourra devenir dans les prochaines années. Et avec les outils modernes — que ce soit dans les moteurs de jeu, les bibliothèques C++ ou les standards comme OpenXR — la VR est plus ouverte que jamais pour les développeurs et les chercheurs qui veulent contribuer à son avenir.
-
+La VR a déjà de nombreuses applications : jeux, formation, médecine, recherche, architecture. Mais elle reste un domaine en évolution, avec plusieurs défis encore présents : latence, confort visuel, champ de vision, résolution, cybersickness, etc. Les casques progressent chaque année, deviennent plus légers, plus nets et plus réalistes.
 
 # Références
 
 LaValle, S. M. (2017). *Virtual Reality*. University of Illinois.  
-Disponible gratuitement : https://msl.cs.uiuc.edu/vr/vrbook.pdf  
-
-Craig, A. B. (2013). *Understanding Augmented Reality: Concepts and Applications*. Elsevier.  
-Présentation du livre : https://www.sciencedirect.com/book/9780240824086/understanding-augmented-reality  
+Il présente la théorie de la perception, le tracking, la géométrie, les moteurs VR et la stéréoscopie.
+https://msl.cs.uiuc.edu/vr/vrbook.pdf  
 
 Meta (Oculus). *Oculus Developer Documentation*.  
 Informations techniques sur le rendu stéréo, IPD, tracking et bonnes pratiques VR.  
@@ -618,11 +539,11 @@ Khronos Group. *OpenXR Specification*.
 Standard officiel pour la réalité virtuelle et mixte, utilisé par Meta, Valve, HTC, Microsoft.  
 https://www.khronos.org/openxr/  
 
-SIGGRAPH. *Courses and Technical Papers on VR/AR*.  
-Ressources scientifiques de référence en rendu, optique et perception.  
-https://www.siggraph.org/learn/conference-resources/  
+Stowers, J. R. et al. (2017). "Virtual reality for freely moving animals.”
+Article scientifique majeur montrant comment la VR est utilisée pour étudier le comportement des animaux non-humains (souris, mouches, poissons).
+https://pmc.ncbi.nlm.nih.gov/articles/PMC6485657/
 
-IEEE VR Conference. *IEEE Virtual Reality Proceedings*.  
-Articles scientifiques sur la perception, les systèmes immersifs, le tracking et les technologies VR.  
-https://ieeexplore.ieee.org/xpl/conhome/1003561/all-proceedings
 
+Vergence–accommodation conflicts hinder visual performance and cause visual fatigue.
+Article de référence expliquant comment la VR trompe le cerveau via :
+https://pmc.ncbi.nlm.nih.gov/articles/PMC2879326/
