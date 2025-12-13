@@ -3,19 +3,24 @@ title = "Atelier : Moteur VR stéréoscopique en C++"
 weight = 3
 +++
 
-Dans cet atelier, vous allez construire un **mini moteur VR stéréoscopique** en C++/OpenGL :
+Dans cet atelier, vous allez construire un **mini moteur de rendu VR stéréoscopique** en C++ avec OpenGL.
 
-- ouverture d’une fenêtre OpenGL ;
-- affichage d’un **cube 3D en rotation** ;
-- rendu **stéréo**, avec une vue pour l’**œil gauche** et une vue pour l’**œil droit** côte à côte.
+Concrètement, vous allez mettre en place :
 
-L’objectif est de comprendre **les briques techniques de base de la VR** : matrices de vue/projection, séparation des yeux, caméra virtuelle.
+- l’ouverture d’une fenêtre OpenGL ;
+- l’affichage d’une **scène 3D simple** (sol et cubes) ;
+- un **cube en rotation** pour visualiser le mouvement ;
+- un rendu **stéréoscopique**, avec une vue pour l’**œil gauche** et une vue pour l’**œil droit**, affichées côte à côte.
+
+L’objectif n’est pas de créer un moteur de jeu complet, mais de comprendre **les briques techniques fondamentales de la réalité virtuelle** :  
+caméra virtuelle, matrices de vue et de projection, séparation des yeux et rendu stéréo.
 
 > [!info] **Compétences visées**
 >
-> - Lire et organiser un projet C++/OpenGL existant.  
+> - Lire et comprendre la structure d’un projet C++/OpenGL existant.  
 > - Comprendre le rôle des **shaders** (`vertex.glsl`, `fragment.glsl`).  
-> - Comprendre comment générer deux vues différentes (gauche/droite) pour un même monde 3D.  
+> - Comprendre comment générer deux vues différentes (gauche / droite) à partir d’une même scène 3D.  
+> - Comprendre la différence entre **rendu mono** et **rendu stéréo**.  
 > - Compiler et exécuter un projet (`vr` / `vr.exe`) dans un environnement reproductible (Docker).
 
 ---
@@ -24,35 +29,51 @@ L’objectif est de comprendre **les briques techniques de base de la VR** : mat
 
 La **stéréoscopie** est le mécanisme fondamental qui permet à la réalité virtuelle de produire une **illusion de profondeur réaliste**.
 
-Dans la vraie vie, nos deux yeux sont séparés d’environ **6.3 cm** (IPD — *Inter-Pupillary Distance*), ce qui fait que :
+Dans la vie réelle, nos deux yeux sont séparés d’environ **6 à 6,5 cm**  
+(IPD — *Inter-Pupillary Distance*). Cette séparation fait que :
 
-- chaque œil reçoit une **image légèrement différente** du monde réel.
+- chaque œil observe le monde depuis un **point de vue légèrement différent**.
 
-Le cerveau fusionne ensuite ces deux images pour reconstruire :
+Le cerveau combine ensuite ces deux images pour reconstruire :
 
-- la **profondeur**,  
-- la **distance des objets**,  
-- le **volume** des formes,  
-- la **position de notre corps** dans l’espace.
+- la **profondeur** ;
+- la **distance des objets** ;
+- le **volume** des formes ;
+- notre **position dans l’espace**.
 
-**Sans stéréoscopie, la VR serait juste un écran plat collé au visage**, sans relief, sans immersion et totalement inconfortable.
+Sans stéréoscopie, la VR ne serait qu’un **écran plat placé devant les yeux** :  
+il n’y aurait presque plus de relief, peu d’immersion, et l’expérience deviendrait rapidement inconfortable.
 
-### Pourquoi doit-on rendre deux images différentes ?
+---
 
-En VR, on ne peut pas simplement afficher **la même scène** dans les deux yeux.
+## Pourquoi faut-il rendre deux images différentes ?
 
-Il faut créer deux caméras virtuelles :
+En réalité virtuelle, il ne suffit pas d’afficher **la même image** deux fois.
 
-- une pour **l’œil gauche**
-- une pour **l’œil droit**
+Il faut créer deux **caméras virtuelles distinctes** :
 
-Chacune possède :
+- une pour **l’œil gauche** ;
+- une pour **l’œil droit**.
 
-- une **position différente** (décalage de l’IPD),
-- une **orientation légèrement différente**,
-- parfois une **projection asymétrique** pour compenser les lentilles du casque.
+Chaque caméra possède :
 
-Ce procédé s’appelle **le rendu stéréo** (*stereo rendering*), et c’est exactement ce que vous allez implémenter dans cet atelier.
+- une **position légèrement décalée** (selon l’IPD) ;
+- une **matrice de vue différente** ;
+- parfois une **projection légèrement différente** pour tenir compte des lentilles du casque.
+
+Ce procédé s’appelle le **rendu stéréoscopique** (*stereo rendering*).
+
+Dans cet atelier, vous implémentez une version simplifiée de ce principe :
+
+- deux matrices de vue ;
+- deux viewports ;
+- un même monde 3D rendu deux fois.
+
+Un mode **mono** est également disponible pour comparer visuellement :
+- ce que l’on voit **avec** stéréoscopie ;
+- et ce que l’on voit **sans** stéréoscopie.
+
+Cette comparaison permet de comprendre concrètement **le rôle de la stéréoscopie dans la perception de la profondeur**.
 
 ---
 
@@ -74,9 +95,11 @@ Avant de commencer, assurez-vous d’avoir accès aux outils suivants :
 
 ### 2.1 Cloner le dépôt
 
+Dépôt : https://github.com/SamuelGranger1/Laboratoire-Stereoscopie-1.git
+
 ```bash
-git clone <URL-DU-DEPOT> labo-vr-cpp
-cd labo-vr-cpp
+git clone https://github.com/SamuelGranger1/Laboratoire-Stereoscopie-1.git
+cd Laboratoire-Stereoscopie-1
 ```
 
 ---
@@ -196,24 +219,32 @@ Ce décalage est ce qui crée **la perception de profondeur**.
 
 
 
-## 5. `main.cpp` est le “cerveau” de votre moteur VR.`
+## 5. `main.cpp` — le “cerveau” de votre moteur VR
 
-Le fichier `main.cpp` est le **point d’entrée** de votre application.  
-C’est lui qui :
+Le fichier `main.cpp` est le **point d’entrée principal** de votre application.
 
-- initialise la fenêtre et OpenGL ;
-- charge et compile les shaders ;
-- crée la géométrie du cube ;
-- gère la “tête VR” (caméra) ;
-- dessine les deux vues (œil gauche / œil droit) à chaque frame.
+C’est lui qui orchestre **toute la logique du mini moteur VR**, du démarrage du programme jusqu’à l’affichage final à l’écran.
 
-> [!tip] Plan du `main.cpp`
+Concrètement, `main.cpp` est responsable de :
+
+- l’initialisation de la fenêtre et du contexte OpenGL ;
+- le chargement et la compilation des **shaders GPU** ;
+- la création de la géométrie 3D (cubes et sol) ;
+- la gestion de la **caméra VR** (la “tête”) ;
+- le calcul des deux vues distinctes (œil gauche / œil droit) ;
+- le rendu stéréoscopique image par image ;
+- la libération propre des ressources à la fin du programme.
+
+Même si ce projet n’est pas un moteur de jeu complet, `main.cpp` en contient déjà **les fondations essentielles**, telles qu’on les retrouve dans de vrais moteurs VR.
+
+> [!tip] **Plan général du `main.cpp`**
+>
 > - Includes et bibliothèques  
-> - Fonctions utilitaires pour les shaders  
-> - Caméra VR (`CameraState`) et gestion clavier  
+> - Fonctions utilitaires (chargement et compilation des shaders)  
+> - Caméra VR (`CameraState`) et gestion des entrées clavier  
 > - Initialisation d’OpenGL (GLFW + GLEW)  
 > - Chargement du programme shader  
-> - Création du cube 3D (VAO/VBO)  
+> - Création de la géométrie 3D (VAO / VBO)  
 > - Boucle principale : rendu stéréo (œil gauche / œil droit)  
 > - Nettoyage des ressources  
 
@@ -221,7 +252,8 @@ C’est lui qui :
 
 ### 5.1 Includes et bibliothèques
 
-On commence par inclure toutes les dépendances nécessaires : OpenGL, GLFW, GLM et la STL.
+La première partie du fichier consiste à inclure toutes les **dépendances nécessaires** au fonctionnement du moteur.
+
 
 ```cpp
 #include <GL/glew.h>
@@ -274,11 +306,11 @@ std::string loadFile(const std::string& path) {
 
 À quoi ça sert ?
 
-Ouvre un fichier sur le disque (vertex.glsl, fragment.glsl, etc.)
+- Ouvre un fichier sur le disque (vertex.glsl, fragment.glsl, etc.)
 
-Lit tout le contenu dans une chaîne de caractères
+- Lit tout le contenu dans une chaîne de caractères
 
-Retourne le texte → parfait pour l’envoyer à OpenGL
+- Retourne le texte → parfait pour l’envoyer à OpenGL
 
 ### 5.2.2 Compilation d’un shader (compileShader)
 
@@ -306,13 +338,13 @@ GLuint compileShader(GLenum type, const std::string& source) {
 
 Ce qui se passe :
 
-glCreateShader(type) : crée un shader (vertex ou fragment).
+- glCreateShader(type) : crée un shader (vertex ou fragment).
 
-glShaderSource : envoie le code GLSL au GPU.
+- glShaderSource : envoie le code GLSL au GPU.
 
-glCompileShader : compile le shader.
+- glCompileShader : compile le shader.
 
-En cas d’erreur, on récupère et on affiche le log de compilation.
+- En cas d’erreur, on récupère et on affiche le log de compilation.
 
 ### 5.2.3 Création du programme GPU (createProgram)
 
@@ -353,15 +385,15 @@ GLuint createProgram(const std::string& vertPath, const std::string& fragPath) {
 
 Résumé :
 
-Charge vertex.glsl et fragment.glsl avec loadFile.
+- Charge vertex.glsl et fragment.glsl avec loadFile.
 
-Compile chaque shader avec compileShader.
+- Compile chaque shader avec compileShader.
 
-Les attache à un programme (glAttachShader) et fait le link (glLinkProgram).
+- Les attache à un programme (glAttachShader) et fait le link (glLinkProgram).
 
-Libère les shaders individuels (on garde le programme final).
+- Libère les shaders individuels (on garde le programme final).
 
-Ce program sera utilisé plus tard avec glUseProgram(program);.
+- Ce programme sera utilisé plus tard avec glUseProgram(program);
 
 ## 5.3 Caméra VR : structure CameraState et gestion clavier
 ### 5.3.1 Structure de la “tête” VR
@@ -375,11 +407,11 @@ struct CameraState {
 };
 ```
 
-position : position de la tête dans le monde 3D.
+- position : position de la tête dans le monde 3D.
 
-yaw : orientation horizontale (gauche/droite).
+- yaw : orientation horizontale (gauche/droite).
 
-pitch : orientation verticale (haut/bas).
+- pitch : orientation verticale (haut/bas).
 
 ## 5.3.2 Mise à jour de la caméra (updateCamera)
 
@@ -483,7 +515,19 @@ void drawScene(GLuint vao,
 }
 ```
 
-## 5.4 Initialisation d’OpenGL (GLFW + GLEW)
+La fonction drawScene dessine plusieurs objets pour rendre la profondeur facile à percevoir :
+
+- un cube central en rotation (repère dynamique) ;
+
+- un cube plus proche (effet stéréo plus fort) ;
+
+- un cube plus loin (effet stéréo plus faible) ;
+
+- un sol large (repère visuel pour la distance).
+
+- Chaque objet a une couleur différente pour aider à lire la scène.
+
+## 5.5 Initialisation d’OpenGL (GLFW + GLEW)
 
 Cette partie se trouve dans le début de main().
 
@@ -524,17 +568,17 @@ int main() {
 
 Résumé :
 
-glfwInit() : démarre GLFW.
+- glfwInit() : démarre GLFW.
 
-glfwCreateWindow() : crée une fenêtre 1600×900.
+- glfwCreateWindow() : crée une fenêtre 1600×900.
 
-glfwMakeContextCurrent() : associe le contexte OpenGL à la fenêtre.
+- glfwMakeContextCurrent() : associe le contexte OpenGL à la fenêtre.
 
-glewInit() : charge les fonctions OpenGL modernes (3.3+).
+- glewInit() : charge les fonctions OpenGL modernes (3.3+).
 
-glEnable(GL_DEPTH_TEST) : active le z-buffer pour un rendu 3D correct.
+- glEnable(GL_DEPTH_TEST) : active le z-buffer pour un rendu 3D correct.
 
-## 5.5 Chargement du programme shader
+## 5.6 Chargement du programme shader
 
 On utilise ici la fonction createProgram() vue plus haut.
 
@@ -549,13 +593,13 @@ On utilise ici la fonction createProgram() vue plus haut.
 
 Ce que ça fait :
 
-Charge vertex.glsl et fragment.glsl.
+- Charge vertex.glsl et fragment.glsl.
 
-Compile + link le programme GPU.
+- Compile + link le programme GPU.
 
-En cas d’erreur, on quitte l’application proprement.
+- En cas d’erreur, on quitte l’application proprement.
 
-## 5.6 Création du cube 3D et des uniforms
+## 5.7 Création du cube 3D et des uniforms
 
 ```cpp
     // --- Données cube (cube unité) ---
@@ -607,15 +651,15 @@ En cas d’erreur, on quitte l’application proprement.
 
 Points importants :
 
-Les sommets décrivent un cube 2×2×2 centré sur l’origine.
+- Les sommets décrivent un cube 2×2×2 centré sur l’origine.
 
-vao / vbo stockent la géométrie côté GPU.
+- vao / vbo stockent la géométrie côté GPU.
 
-location = 0 correspond à l’attribut position dans vertex.glsl.
+- location = 0 correspond à l’attribut position dans vertex.glsl.
 
-On récupère les uniform pour les matrices model, view, proj.
+- On récupère les uniform pour les matrices model, view, proj.
 
-## 5.7 Boucle principale : rendu VR stéréo
+## 5.8 Boucle principale : rendu VR stéréo
 
 ```cpp
     // --- Boucle principale ---
@@ -705,17 +749,17 @@ On récupère les uniform pour les matrices model, view, proj.
 
 Idée VR :
 
-Les deux yeux voient le même cube, mais avec :
+- Les deux yeux voient le même cube, mais avec :
 
-matrices viewLeft / viewRight différentes
+- matrices viewLeft / viewRight différentes
 
-même model et même proj (ou presque)
+- même model et même proj (ou presque)
 
-glViewport découpe la fenêtre en deux moitiés (gauche/droite).
+- glViewport découpe la fenêtre en deux moitiés (gauche/droite).
 
-C’est la différence entre les deux vues qui crée la profondeur stéréoscopique.
+- C’est la différence entre les deux vues qui crée la profondeur stéréoscopique.
 
-## 5.8 Nettoyage des ressources
+## 5.9 Nettoyage des ressources
 
 ```cpp
     glDeleteBuffers(1, &vbo);
@@ -729,7 +773,93 @@ C’est la différence entre les deux vues qui crée la profondeur stéréoscopi
 
 À la fin :
 
-On libère la mémoire GPU (VBO, VAO, programme shader).
+- On libère la mémoire GPU (VBO, VAO, programme shader).
 
-On ferme GLFW proprement.
+- On ferme GLFW proprement.
 
+# Compiler et exécuter
+
+## A. Windows — Solution 1 (recommandée) : Visual Studio (MSVC)
+### A.1 Ouvrir un terminal “Developer” (MSVC)
+
+Ouvrir “x64 Native Tools Command Prompt for VS” (Visual Studio)
+ou dans VS Code : terminal PowerShell si Visual Studio est installé et détecté.
+
+### A.2 Build
+
+Dans le dossier du projet :
+
+```bash
+cd C:\chemin\vers\Laboratoire-Stereoscopie-1
+cmake -S . -B build
+cmake --build build --config Release
+```
+
+### A.3 Run
+```bash
+.\build\Release\vr.exe
+```
+(Si vous avez build en Debug, c’est .\build\Debug\vr.exe.)
+
+## B. Windows — Solution 2 : MSYS2 MinGW64 (comme un terminal “Linux”)
+### B.1 Installer MSYS2 + outils
+
+Installer MSYS2 : https://www.msys2.org/
+
+Ouvrir “MSYS2 MinGW x64” (important)
+
+Dans MSYS2 MinGW64, installer les outils + libs :
+```bash
+pacman -Syu
+pacman -S mingw-w64-x86_64-toolchain
+pacman -S mingw-w64-x86_64-cmake
+pacman -S mingw-w64-x86_64-glfw mingw-w64-x86_64-glew mingw-w64-x86_64-glm
+```
+### B.2 Build
+
+Dans MSYS2 MinGW64, aller dans le projet (exemple si le projet est sur C:) :
+
+```bash
+cd /c/chemin/vers/Laboratoire-Stereoscopie-1
+rm -rf build
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" ..
+cmake --build .
+```
+
+### B.3 Run
+
+```bash
+./vr.exe
+```
+
+## C. Linux (Ubuntu/Debian) — Build + Run
+### C.1 Installer dépendances
+
+```bash
+sudo apt update
+sudo apt install -y cmake g++ make git \
+  libglfw3-dev libglew-dev libglm-dev \
+  libgl1-mesa-dev libglu1-mesa-dev
+```
+
+### C.2 Build
+```bash
+cd /chemin/vers/Laboratoire-Stereoscopie-1
+rm -rf build
+cmake -S . -B build
+cmake --build build
+```
+
+### C.3 Run
+
+```bash
+./build/vr
+```
+
+## Notes importantes
+
+- Si cmake --build ... dit “not a CMake build directory (missing CMakeCache.txt)”, ça veut dire que la commande cmake ... de configuration n’a pas été faite au bon endroit (ou a échoué). Refaire la séquence complète : configure → build → run.
+
+- Sous Windows, un .exe ne peut pas être lancé dans un conteneur Linux (et inversement). Compilez et exécutez dans le même environnement.
